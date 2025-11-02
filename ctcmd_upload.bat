@@ -4,6 +4,7 @@ cd /d %~dp0
 git pull -v
 cd /d %now_work%
 setlocal enabledelayedexpansion
+call %HOME%\config.bat
 if "%~4"=="" (
     echo Usage: upload.bat [file] [name] [arch] [last_will_change_version]
     exit /b 1
@@ -32,13 +33,13 @@ for /f "tokens=* delims=" %%a in ('type "%HOME%\all.ctcmd"') do (
 )
 :skip
 if "%found%"=="0" (
-    echo %name%@https://raw.githubusercontent.com/xingguangcuican6666/ctcmd_repo/refs/heads/main/%name%>>"%HOME%\all.ctcmd"    
+    echo %name%@%repo%/refs/heads/main/%name%>>"%HOME%\all.ctcmd"    
 )
 mkdir "%HOME%%name%"
 move /y "%HOME%%name%\%name%_%arch%_latest.zip" "%HOME%%name%\%name%_%arch%_%version%.zip"
 copy /y %1 "%HOME%%name%\%name%_%arch%_latest.zip"
 cd /d %HOME%
-call %HOME%\config.bat
+
 
 REM 以下为移除 all.ctcmd 每行末尾空格的整合代码
 set "tmpfile=%HOME%\all.ctcmd.trimmed"
