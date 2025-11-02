@@ -5,6 +5,8 @@ git pull -v
 cd /d %now_work%
 setlocal enabledelayedexpansion
 call %HOME%\config.bat
+set "httpsrepo=%repo:git@=https://%"
+set "httpsrepo=%httpsrepo::=/%"
 if "%~4"=="" (
     echo Usage: upload.bat [file] [name] [arch] [last_will_change_version]
     exit /b 1
@@ -33,7 +35,7 @@ for /f "tokens=* delims=" %%a in ('type "%HOME%\all.ctcmd"') do (
 )
 :skip
 if "%found%"=="0" (
-    echo %name%@%repo%/refs/heads/main/%name%>>"%HOME%\all.ctcmd"    
+    echo %name%@%httpsrepo%/refs/heads/main/%name%>>"%HOME%\all.ctcmd"    
 )
 mkdir "%HOME%%name%"
 move /y "%HOME%%name%\%name%_%arch%_latest.zip" "%HOME%%name%\%name%_%arch%_%version%.zip"
