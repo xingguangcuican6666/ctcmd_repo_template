@@ -6,8 +6,11 @@ echo %GIT_SSH_COMMAND%
 git pull -v
 cd /d %now_work%
 setlocal enabledelayedexpansion
-set "httpsrepo=%repo:git@=https://raw.githubusercontent.com/%"
-set "httpsrepo=%httpsrepo::=/%"
+for /f "tokens=2,3 delims=:@/" %%a in ("%repo%") do (
+    set "user=%%a"
+    set "repo=%%b"
+)
+set "httpsrepo=https://raw.githubusercontent.com/%user%/%repo%"
 if "%~4"=="" (
     echo Usage: upload.bat [file] [name] [arch] [last_will_change_version]
     exit /b 1
