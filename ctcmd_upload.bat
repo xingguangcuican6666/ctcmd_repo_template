@@ -1,10 +1,11 @@
 @echo off
 set now_work="%cd%"
 cd /d %~dp0
+call config.bat
+echo %GIT_SSH_COMMAND%
 git pull -v
 cd /d %now_work%
 setlocal enabledelayedexpansion
-call %HOME%\config.bat
 set "httpsrepo=%repo:git@=https://%"
 set "httpsrepo=%httpsrepo::=/%"
 if "%~4"=="" (
