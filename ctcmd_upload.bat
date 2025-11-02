@@ -6,11 +6,14 @@ echo %GIT_SSH_COMMAND%
 git pull -v
 cd /d %now_work%
 setlocal enabledelayedexpansion
-for /f "tokens=2,3 delims=:@/" %%a in ("%repo%") do (
+set "tmp=%repo:git@github.com=%"
+REM 去掉开头的冒号
+set "tmp=%tmp::=%"
+REM 提取用户名和仓库名
+for /f "tokens=1,2 delims=/" %%a in ("%tmp%") do (
     set "user=%%a"
     set "repo=%%b"
 )
-set "httpsrepo=https://raw.githubusercontent.com/%user%/%repo%"
 if "%~4"=="" (
     echo Usage: upload.bat [file] [name] [arch] [last_will_change_version]
     exit /b 1
@@ -38,8 +41,9 @@ for /f "tokens=* delims=" %%a in ('type "%HOME%\all.ctcmd"') do (
     )
 )
 :skip
+set "rawurl=https://raw.githubusercontent.com/%user%/%repo%"
 if "%found%"=="0" (
-    echo %name%@%httpsrepo%/refs/heads/main/%name%>>"%HOME%\all.ctcmd"    
+    echo %name%@%rawurl%/refs/heads/main/%name%>>"%HOME%\all.ctcmd"    
 )
 mkdir "%HOME%%name%"
 move /y "%HOME%%name%\%name%_%arch%_latest.zip" "%HOME%%name%\%name%_%arch%_%version%.zip"
