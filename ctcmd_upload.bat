@@ -4,7 +4,7 @@ cd /d %~dp0
 git pull -v
 cd /d %now_work%
 setlocal enabledelayedexpansion
-call %HOME%\config.bat
+call config.bat
 set "httpsrepo=%repo:git@=https://%"
 set "httpsrepo=%httpsrepo::=/%"
 if "%~4"=="" (
