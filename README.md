@@ -55,4 +55,4 @@ C:\Users\xxx>
 
 ## 版权
 
-MIT License
+GPL3.0
